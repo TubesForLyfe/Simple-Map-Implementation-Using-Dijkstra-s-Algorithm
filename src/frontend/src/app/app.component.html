@@ -1,0 +1,76 @@
+<style>
+  .App {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+    width: 100%;
+    max-width: 1500px;
+    background-color: #3ce1ea;
+
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  .flex-row {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .margin-left-32 {
+    margin-left: 32px;
+  }
+
+  .margin-top-20 {
+    margin-top: 20px;
+  }
+
+  .map {
+    width: 60%;
+    min-height: 400px;
+    margin: auto;
+    margin-top: 10%;
+    margin-bottom: 10%;
+    background-color: white;
+    border: 5px solid lightblue;
+    border-radius: 32px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    overflow-y: auto;
+  }
+
+  .src-map-node {
+    width: 20%;
+    max-width: 500px;
+    background-color: #d9ea3c;
+  }
+
+  .dest-map-node {
+    width: 20%;
+    max-width: 700px;
+    background-color: #65ea3c;
+  }
+</style>
+
+<div class="App">
+  <div class="map">
+    <h2>Simple Map Application</h2>
+    <p>Choose your map file(txt):</p>
+    <input type="file" (change)="uploadFile($event)" />
+    <div class="flex-row margin-top-20">
+      <div class="margin-left-32 src-map-node">
+        <p>Source node</p>
+        <div *ngFor="let src_maps of src_map_list">
+          <p>{{src_maps}}</p>
+        </div>
+      </div>
+      <div class="margin-left-32 dest-map-node">
+        <p>Destination node</p>
+        <div *ngFor="let dest_maps of dest_map_list">
+          <p>{{dest_maps}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<router-outlet></router-outlet>
