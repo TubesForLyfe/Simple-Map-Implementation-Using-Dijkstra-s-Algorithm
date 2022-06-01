@@ -73,7 +73,17 @@ export class AppComponent {
     this.choosen_dest = choice.dest_maps;
   }
 
+  refreshResult() {
+    this.map_result = [];
+    this.weight_result = [];
+    this.distance_result = 0;
+    this.iteration_result = 0;
+    this.time_result = 0;
+    this.map_message = "";
+  }
+
   showMap() {
+    this.refreshResult();
     this.http.post('http://127.0.0.1:8000/show-map/', {
       src: this.choosen_src,
       dest: this.choosen_dest,
