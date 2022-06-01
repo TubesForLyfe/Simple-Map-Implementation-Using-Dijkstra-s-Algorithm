@@ -1,8 +1,8 @@
-from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 import json
+import time
 
 # Create your views here.
 @csrf_exempt
@@ -50,6 +50,11 @@ def getDestination(processing, map, processed):
             result.append(dest)
     return result
 
+def getWeight(src, dest, map):
+    for i in range(len(map)):
+        if (map[i]['src'] == src and map[i]['dest'] == dest):
+            return map[i]['weight']
+
 @csrf_exempt
 def showMap(request):
     src = json.loads(request.body.decode('UTF-8'))["src"]
@@ -60,14 +65,21 @@ def showMap(request):
     processed = []
     processing = ['0', src]
     pqueue = [['0', src]]
+    t1 = time.time_ns()
+    iteration = 0
     while (len(pqueue) != 0 and processing[len(processing) - 1] != dest):
         processing = dequeue(pqueue)
         next_dest = getDestination(processing, maps, processed)
         for i in range(len(next_dest)):
             pqueue = enqueue(next_dest[i], pqueue)
         processed.append(processing[len(processing) - 1])
+        iteration += 1
+    t2 = time.time_ns()
     if (processing[len(processing) - 1] == dest):
-        return JsonResponse({'data': processing})
+        weight = []
+        for i in range(1, len(processing) - 1):
+            weight.append(getWeight(processing[i], processing[i + 1], maps))
+        return JsonResponse({'data': processing, 'time': t2-t1, 'iteration': iteration, 'weight': weight})
     else:
         return JsonResponse({'message': dest + ' tidak dapat dicapai dari ' + src})
     

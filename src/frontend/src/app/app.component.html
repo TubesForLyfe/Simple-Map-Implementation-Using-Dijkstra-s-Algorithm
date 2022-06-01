@@ -58,16 +58,32 @@
     background-color: #d9ea3c;
   }
 
+  .src:hover {
+    background-color: #ccdc3d;
+  }
+
   .dest-map-node {
     width: 25%;
     max-width: 700px;
     background-color: #65ea3c;
   }
 
+  .dest:hover {
+    background-color: #5cd737;
+  }
+
   .weight-map-node {
     width: 25%;
     max-width: 700px;
     background-color: #3c9cea;
+  }
+
+  .pointer {
+    cursor: pointer;
+  }
+
+  .blue {
+    color: blue;
   }
 
   .map-result {
@@ -92,16 +108,16 @@
     <div class="flex-row margin-top-20" *ngIf="map_list.length > 0">
       <div class="margin-left-55 src-map-node">
         <p>Source node</p>
-        <div *ngFor="let src_maps of src_map_list" (click)="chooseSrc({src_maps})">
+        <div *ngFor="let src_maps of src_map_list" (click)="chooseSrc({src_maps})" class="pointer">
           <p class="bg-white-5"></p>
-          <p>{{src_maps}}</p>
+          <p class="src">{{src_maps}}</p>
         </div>
       </div>
       <div class="margin-left-55 dest-map-node">
         <p>Destination node</p>
-        <div *ngFor="let dest_maps of dest_map_list" (click)="chooseDest({dest_maps})">
+        <div *ngFor="let dest_maps of dest_map_list" (click)="chooseDest({dest_maps})" class="pointer">
           <p class="bg-white-5"></p>
-          <p>{{dest_maps}}</p>
+          <p class="dest">{{dest_maps}}</p>
         </div>
       </div>
       <div class="margin-left-55 weight-map-node">
@@ -113,18 +129,23 @@
       </div>
     </div>
     <div *ngIf="map_list.length > 0">
-      <p>Choosen source node: {{choosen_src}}</p>
-      <p>Choosen destination node: {{choosen_dest}}</p>
+      <p>Choosen source node: <span class="blue">{{choosen_src}}</span></p>
+      <p>Choosen destination node: <span class="blue">{{choosen_dest}}</span></p>
     </div>
     <button *ngIf="choosen_src != '' && choosen_dest != ''" (click)="showMap()">Show Map</button>
     <div *ngIf="map_result.length != 0 && map_message == ''" class="margin-top-32">
+      <h3>Map Result</h3>
       <div *ngFor="let result of map_result" class="margin-top-20">
         <p class="map-result margin-top-neg20">{{result}}</p>
         <div *ngIf="result != map_result[map_result.length - 1]">
           <p class="margin-top-neg20">|</p>
           <p class="margin-top-neg20">v</p>
+          <p class="margin-top-neg20">Weight: {{showWeight(getIdx(result, map_result))}}</p>
         </div>
       </div>
+      <p>Iteration count: {{iteration_result}} times</p>
+      <p>Total weight: {{distance_result}}</p>
+      <p>Time: {{time_result}} ns</p>
     </div>
     <div *ngIf="map_result.length == 0 && map_message != ''">
       <p class="message">{{map_message}}</p>
