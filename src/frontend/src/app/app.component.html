@@ -15,12 +15,20 @@
     flex-direction: row;
   }
 
-  .margin-left-32 {
-    margin-left: 32px;
+  .margin-left-55 {
+    margin-left: 55px;
   }
 
   .margin-top-20 {
     margin-top: 20px;
+  }
+
+  .margin-top-32 {
+    margin-top: 32px;
+  }
+
+  .margin-top-neg20 {
+    margin-top: -20px;
   }
 
   .bg-white-5 {
@@ -61,6 +69,19 @@
     max-width: 700px;
     background-color: #3c9cea;
   }
+
+  .map-result {
+    width: 50px;
+    min-height: 30px;
+    border-radius: 100%;
+    background-color: #65ea3c;
+    margin-left: 47.25%;
+    padding-top: 10px;
+  }
+
+  .message {
+    color: red;
+  }
 </style>
 
 <div class="App">
@@ -69,21 +90,21 @@
     <p>Choose your map file(txt):</p>
     <input type="file" (change)="uploadFile($event)" />
     <div class="flex-row margin-top-20" *ngIf="map_list.length > 0">
-      <div class="margin-left-32 src-map-node">
+      <div class="margin-left-55 src-map-node">
         <p>Source node</p>
         <div *ngFor="let src_maps of src_map_list" (click)="chooseSrc({src_maps})">
           <p class="bg-white-5"></p>
           <p>{{src_maps}}</p>
         </div>
       </div>
-      <div class="margin-left-32 dest-map-node">
+      <div class="margin-left-55 dest-map-node">
         <p>Destination node</p>
         <div *ngFor="let dest_maps of dest_map_list" (click)="chooseDest({dest_maps})">
           <p class="bg-white-5"></p>
           <p>{{dest_maps}}</p>
         </div>
       </div>
-      <div class="margin-left-32 weight-map-node">
+      <div class="margin-left-55 weight-map-node">
         <p>Weight</p>
         <div *ngFor="let weight_maps of weight_map_list">
           <p class="bg-white-5"></p>
@@ -91,7 +112,23 @@
         </div>
       </div>
     </div>
-    <button *ngIf="choosen_src != '' && choosen_dest != ''" class="margin-top-20" (click)="showMap()">Show Map</button>
+    <div *ngIf="map_list.length > 0">
+      <p>Choosen source node: {{choosen_src}}</p>
+      <p>Choosen destination node: {{choosen_dest}}</p>
+    </div>
+    <button *ngIf="choosen_src != '' && choosen_dest != ''" (click)="showMap()">Show Map</button>
+    <div *ngIf="map_result.length != 0 && map_message == ''" class="margin-top-32">
+      <div *ngFor="let result of map_result" class="margin-top-20">
+        <p class="map-result margin-top-neg20">{{result}}</p>
+        <div *ngIf="result != map_result[map_result.length - 1]">
+          <p class="margin-top-neg20">|</p>
+          <p class="margin-top-neg20">v</p>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="map_result.length == 0 && map_message != ''">
+      <p class="message">{{map_message}}</p>
+    </div>
   </div>
 </div>
 

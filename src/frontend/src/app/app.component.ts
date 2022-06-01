@@ -16,9 +16,22 @@ export class AppComponent {
 
   choosen_src = "";
   choosen_dest = "";
+  map_result = [];
+  distance_result = 0;
+  map_message = "";
   constructor(private http: HttpClient) {}
 
   uploadFile(event: any) {
+    this.map_list = [];
+    this.src_map_list = [];
+    this.dest_map_list = [];
+    this.weight_map_list = [];
+
+    this.choosen_src = "";
+    this.choosen_dest = "";
+    this.map_result = [];
+    this.distance_result = 0;
+    this.map_message = "";
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
       const reader = new FileReader();
@@ -55,19 +68,13 @@ export class AppComponent {
       dest: this.choosen_dest,
       map: this.map_list
     }).subscribe((response: any) => {
-
-    })
-  }
-
-  isIn(elmt: any, list: any) {
-    let i = 0;
-    while (i < list.length) {
-      if (elmt == list[i]) {
-        return true;
+      if (response.data) {
+        this.distance_result = response.data[0];
+        response.data.shift();
+        this.map_result = response.data;
       } else {
-        i++;
+        this.map_message = response.message;
       }
-    }
-    return false;
+    })
   }
 }
