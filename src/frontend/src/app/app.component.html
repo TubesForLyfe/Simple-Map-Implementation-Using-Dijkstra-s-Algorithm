@@ -5,7 +5,7 @@
     transform: translate(-50%);
     width: 100%;
     max-width: 1500px;
-    background-color: #3ce1ea;
+    background-color: #3cb9ea;
 
     font-family: 'Open Sans', sans-serif;
   }
@@ -23,12 +23,18 @@
     margin-top: 20px;
   }
 
+  .bg-white-5 {
+    background-color: white;
+    height: 5px;
+  }
+
   .map {
     width: 60%;
     min-height: 400px;
     margin: auto;
     margin-top: 10%;
     margin-bottom: 10%;
+    padding-bottom: 20px;
     background-color: white;
     border: 5px solid lightblue;
     border-radius: 32px;
@@ -39,15 +45,21 @@
   }
 
   .src-map-node {
-    width: 20%;
+    width: 25%;
     max-width: 500px;
     background-color: #d9ea3c;
   }
 
   .dest-map-node {
-    width: 20%;
+    width: 25%;
     max-width: 700px;
     background-color: #65ea3c;
+  }
+
+  .weight-map-node {
+    width: 25%;
+    max-width: 700px;
+    background-color: #3c9cea;
   }
 </style>
 
@@ -56,20 +68,30 @@
     <h2>Simple Map Application</h2>
     <p>Choose your map file(txt):</p>
     <input type="file" (change)="uploadFile($event)" />
-    <div class="flex-row margin-top-20">
+    <div class="flex-row margin-top-20" *ngIf="map_list.length > 0">
       <div class="margin-left-32 src-map-node">
         <p>Source node</p>
-        <div *ngFor="let src_maps of src_map_list">
+        <div *ngFor="let src_maps of src_map_list" (click)="chooseSrc({src_maps})">
+          <p class="bg-white-5"></p>
           <p>{{src_maps}}</p>
         </div>
       </div>
       <div class="margin-left-32 dest-map-node">
         <p>Destination node</p>
-        <div *ngFor="let dest_maps of dest_map_list">
+        <div *ngFor="let dest_maps of dest_map_list" (click)="chooseDest({dest_maps})">
+          <p class="bg-white-5"></p>
           <p>{{dest_maps}}</p>
         </div>
       </div>
+      <div class="margin-left-32 weight-map-node">
+        <p>Weight</p>
+        <div *ngFor="let weight_maps of weight_map_list">
+          <p class="bg-white-5"></p>
+          <p>{{weight_maps}}</p>
+        </div>
+      </div>
     </div>
+    <button *ngIf="choosen_src != '' && choosen_dest != ''" class="margin-top-20" (click)="showMap()">Show Map</button>
   </div>
 </div>
 

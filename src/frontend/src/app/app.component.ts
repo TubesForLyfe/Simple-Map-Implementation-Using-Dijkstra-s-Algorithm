@@ -12,6 +12,10 @@ export class AppComponent {
   map_list = [];
   src_map_list = [];
   dest_map_list = [];
+  weight_map_list = [];
+
+  choosen_src = "";
+  choosen_dest = "";
   constructor(private http: HttpClient) {}
 
   uploadFile(event: any) {
@@ -25,12 +29,9 @@ export class AppComponent {
         }).subscribe((response: any) => {
           this.map_list = response.data;
           for (let i = 0; i < this.map_list.length; i++) {
-            if (!this.isIn(this.map_list[i]["src"], this.src_map_list)) {
-              this.src_map_list.push(this.map_list[i]["src"]);
-            }
-            if (!this.isIn(this.map_list[i]["dest"], this.dest_map_list)) {
-              this.dest_map_list.push(this.map_list[i]["dest"]);
-            }
+            this.src_map_list.push(this.map_list[i]["src"]);
+            this.dest_map_list.push(this.map_list[i]["dest"]);
+            this.weight_map_list.push(this.map_list[i]["weight"]);
           }
         })
       }
@@ -38,6 +39,24 @@ export class AppComponent {
         console.log('File error', reader.error);
       }
     }
+  }
+
+  chooseSrc(choice: any) {
+    this.choosen_src = choice.src_maps;
+  }
+
+  chooseDest(choice: any) {
+    this.choosen_dest = choice.dest_maps;
+  }
+
+  showMap() {
+    this.http.post('http://127.0.0.1:8000/show-map/', {
+      src: this.choosen_src,
+      dest: this.choosen_dest,
+      map: this.map_list
+    }).subscribe((response: any) => {
+
+    })
   }
 
   isIn(elmt: any, list: any) {

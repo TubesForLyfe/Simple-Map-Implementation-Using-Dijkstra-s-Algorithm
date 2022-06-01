@@ -18,3 +18,12 @@ def createMap(request):
         map_dict_result['weight'] = map_dict_split[2].split('\r')[0]
         map_result.append(map_dict_result)
     return JsonResponse({'data': map_result}) 
+
+@csrf_exempt
+def showMap(request):
+    src = json.loads(request.body.decode('UTF-8'))["src"]
+    dest = json.loads(request.body.decode('UTF-8'))["dest"]
+    maps = json.loads(request.body.decode('UTF-8'))["map"]
+
+    #PROCESS
+    print(maps)
